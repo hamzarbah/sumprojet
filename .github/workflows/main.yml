@@ -1,4 +1,4 @@
-name: CI Workflow
+name: Build and Push Docker Image
 
 on:
   push:
@@ -13,7 +13,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Run build script
+    - name: Build Docker image
       run: |
-        echo "Running build..."
-        # Add your build commands here
+       sudo docker build -t my-apache2 
+       sudo docker run -dit -p 8080:80 --name my-running-app my-apache2
+
+
