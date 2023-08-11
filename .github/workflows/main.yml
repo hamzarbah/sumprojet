@@ -2,20 +2,18 @@ name: Build and Push Docker Image
 
 on:
   push:
-    branches:
-      - main
+   branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Build Docker image
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
       run: |
-       sudo docker build -t my-apache2 
-       sudo docker run -dit -p 8080:80 --name my-running-app my-apache2
-
+        echo "${{ secrets.dockerhub }}" | docker login -u "HamzaRbah" --password-stdin
+        docker image build -t my-apache2:latest .
+        docker push my-apache2:latest
 
